@@ -1,0 +1,13 @@
+{
+    "name": "interesting/php-meme-encoder",
+    "description": "A fun PHP encoder that converts text to Chinese internet memes",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+} 
