@@ -4,270 +4,378 @@ namespace App;
 
 class MemeEncoder
 {
-    private array $memeMap = [
-        // 基础字符映射（每个字符对应5个不同的梗，增加随机性）
-        '周' => ['我是一个废物', '摆烂了', '寄了', '太离谱了', '绷不住了'],
-        '洋' => ['蚌埠住了', '我测你们码', '啊对对对', '破防了', '我是垃圾'],
-        '是' => ['就这样子', '确实如此', '懂的都懂', '就这么回事', '真相了'],
-        '一' => ['一整个魂游天外', '一个顶俩', '一眼丁真', '一直在寻找', '一起摆烂'],
-        '个' => ['个个都是人才', '个顶个', '个超级稻', '个寄吧', '个大聪明'],
-        '大' => ['大聪明', '大手子', '大佬', '大神', '大伙儿'],
-        '傻' => ['智力下降', '脑瓜子嗡嗡', '没有智商', '智商欠费', '脑子进水'],
-        '逼' => ['牛逼', '无敌', '带带大师兄', '太强了', '我直接好家伙'],
-        '你' => ['汝甚', '您老', '亲亲', '宝贝', '大佬'],
-        '好' => ['太行了', '奈斯', '不错哦', '可以的', 'OK'],
-        '他' => ['那个鬼', '这位更是重量级', '人才', '带师', '大神'],
-        '们' => ['集美们', '家人们', '老铁们', '兄弟们', '大伙儿'],
-        '在' => ['到处摸鱼', '躺平中', '正在冲', '在线摆烂', '卷起来了'],
-        '干' => ['搞快点', '冲冲冲', '干就完了', '就这么干', '速速速'],
-        '什' => ['啥玩意', '什么鬼', '神马情况', '咋回事', '啥子'],
-        '么' => ['么么哒', '么事', '咋了', '啥情况', '什么情况'],
-        ' ' => ['摸鱼', '躺平', '冲浪', '摆烂', '划水'],
-        '?' => ['啥玩意儿', '什么鬼', '咋回事', '神马情况', '啊这'],
-        '！' => ['急了急了', '破防了', '绷不住了', '蚌埠住了', '我直接好家伙'],
-        '。' => ['这河里', '确实', '懂的', '就这样', '完事了'],
-        '，' => ['接着奏乐', '接着舞', '继续说', '往下说', '说下去'],
-        '：' => ['就是说', '就这意思', '咱就是说', '就是那个', '就这么回事'],
-        '的' => ['滴滴滴', '得得得', '哒哒哒', '嘀嘀嘀', '噔噔噔'],
-        
-        // 新增常用汉字映射
-        '人' => ['人才啊人才', '人麻了', '人生赢家', '人上人', '人间清醒'],
-        '我' => ['我超', '我枯了', '我真的会谢', '我不好说', '我是废物'],
-        '这' => ['这不比', '这河里', '这么说的吗', '这是否', '这波啊'],
-        '那' => ['那确实', '那必须的', '那还用说', '那可不', '那真是太棒了'],
-        '都' => ['都可以的', '都让你懂完了', '都给我冲', '都别说了', '都给我狠狠地'],
-        '很' => ['很可以', '很合理', '很懂事', '很有精神', '很难不支持'],
-        '太' => ['太顶了', '太强了', '太草了', '太离谱', '太典了'],
-        '真' => ['真的假的', '真是个人才', '真有你的', '真是绝了', '真是个妖精'],
-        '不' => ['不会吧不会吧', '不懂就问', '不如跳舞', '不要停下来啊', '不要啊'],
-        '了' => ['了不起', '了解', '了转反', '了属于是', '了算了'],
-        '就' => ['就这就这', '就挺好', '就很离谱', '就是玩儿', '就很棒'],
-        '还' => ['还挺好', '还可以的', '还不错哦', '还行吧', '还能说啥'],
-        '有' => ['有点东西', '有被冒犯到', '有小丑竟是我自己', '有这回事', '有被笑到'],
-        '没' => ['没绷住', '没想到吧', '没有这回事', '没跑了', '没谁了'],
-        '会' => ['会玩儿', '会谢', '会不会太', '会是这样吗', '会很棒'],
-        '能' => ['能不能好好的', '能理解', '能看出来', '能说会道', '能玩明白'],
-        '要' => ['要笑死了', '要素察觉', '要不要这样', '要起飞了', '要命呐'],
-        '可' => ['可以可以', '可太秀了', '可别说了', '可不敢乱说', '可不是嘛'],
-        '去' => ['去世', '去了', '去吧去吧', '去看看', '去了解一下'],
-        '来' => ['来了来了', '来啦老弟', '来玩啊', '来了老铁', '来了老妹'],
-        
-        // 网络热词映射
-        '笑' => ['笑死', '笑嘻了', '笑不活了', '笑出猪叫', '笑出腹肌'],
-        '哭' => ['哭死', '哭晕在厕所', '哭了呜呜呜', '哭着看完的', '哭着看完'],
-        '爱' => ['爱了爱了', '爱住了', '爱到不行', '爱到起飞', '爱到昏厥'],
-        '恨' => ['恨不得', '恨铁不成钢', '恨得牙痒痒', '恨死了', '恨到极致'],
-        '玩' => ['玩明白了', '玩不起', '玩得花', '玩脱了', '玩得溜'],
-        '懂' => ['懂得都懂', '懂了懂了', '懂王来了', '懂哥', '懂姐'],
-        '看' => ['看傻了', '看不懂', '看麻了', '看呆了', '看傻眼了'],
-        '说' => ['说得好', '说得对', '说实话', '说不出话', '说得都对'],
-        '做' => ['做得好', '做到了', '做不到', '做梦', '做完了'],
-        '想' => ['想不到吧', '想多了', '想太多', '想什么呢', '想得美'],
-        '知' => ['知道了', '知识增加了', '知识盲区', '知识的力量', '知道的太多了'],
-        '学' => ['学到了', '学废了', '学不会', '学会了', '学着点'],
-        '听' => ['听不懂', '听明白了', '听着呢', '听我说', '听完了'],
-        '看' => ['看不懂', '看傻了', '看完了', '看得懂', '看着办'],
-        '写' => ['写不出', '写得好', '写完了', '写着玩', '写得对'],
-        '读' => ['读不懂', '读完了', '读得懂', '读书人', '读书破万卷'],
-        '吃' => ['吃瓜群众', '吃了没', '吃不下了', '吃得好', '吃饱了'],
-        '喝' => ['喝口水', '喝醉了', '喝不下了', '喝得好', '喝完了'],
-        '玩' => ['玩得好', '玩不起', '玩明白了', '玩脱了', '玩得溜'],
-        '闹' => ['闹得欢', '闹着玩', '闹不明白', '闹明白了', '闹得凶'],
-        
-        // 情感表达映射
-        '哈' => ['哈哈哈哈', '哈人', '哈哈笑死', '哈哈哈笑', '哈哈哈乐'],
-        '呵' => ['呵呵呵', '呵护', '呵斥', '呵欠', '呵呵笑'],
-        '嘿' => ['嘿嘿嘿', '嘿咻', '嘿哈', '嘿呀', '嘿你说'],
-        '嘻' => ['嘻嘻嘻', '嘻哈', '嘻笑', '嘻乐', '嘻皮笑脸'],
-        '啊' => ['啊这', '啊对对对', '啊我死了', '啊哈哈哈', '啊不是吧'],
-        '哦' => ['哦豁', '哦莫', '哦牛批', '哦是吗', '哦豁豁'],
-        '呜' => ['呜呜呜', '呜哇', '呜呼', '呜嘤嘤', '呜呀呜呀'],
-        '嗯' => ['嗯哼', '嗯嗯对的', '嗯好的', '嗯是的', '嗯没错'],
-        '噢' => ['噢耶', '噢是吗', '噢这样', '噢好吧', '噢明白了'],
-        '唉' => ['唉呀妈呀', '唉声叹气', '唉算了', '唉好吧', '唉别提了'],
-        
-        // 网络流行语映射
-        '整' => ['整不会了', '整挺好', '整活', '整明白了', '整不明白'],
-        '搞' => ['搞快点', '搞不懂', '搞明白了', '搞起来', '搞什么'],
-        '冲' => ['冲冲冲', '冲就完了', '冲它', '冲鸭', '冲啊'],
-        '顶' => ['顶不住了', '顶真', '顶上去', '顶得住', '顶流'],
-        '破' => ['破防了', '破案了', '破局了', '破了', '破解了'],
-        '绷' => ['绷不住了', '绷住了', '绷着', '绷完了', '绷得住'],
-        '蚌' => ['蚌埠住了', '蚌不住了', '蚌完了', '蚌得住', '蚌住了'],
-        '麻' => ['麻了', '麻中麻', '麻麻的', '麻完了', '麻到了'],
-        '寄' => ['寄了', '寄！', '寄咯', '寄吧', '寄啦'],
-        '摆' => ['摆烂', '摆了', '摆完了', '摆得住', '摆上天'],
-        
-        // 新增标点符号映射
-        '；' => ['咳咳', '这个那个', '欲言又止', '欲言又止', '话说回来'],
-        '、' => ['然后呢', '接着说', '继续讲', '往下说', '说下去'],
-        '《' => ['前方高能', '注意注意', '请注意', '划重点', '重点来了'],
-        '》' => ['懂了吧', '明白不', '收到没', '懂否', '明白了吗'],
-        '（' => ['小声说', '悄悄说', '偷偷说', '我觉得', '我想说'],
-        '）' => ['就是这样', '就酱', '完毕', '结束', '说完了'],
-        '"' => ['重要的事', '听好了', '注意了', '划重点', '记住了'],
-        '"' => ['这就是了', '就是这样', '明白了吧', '懂了没', '记住了吗'],
-        '' => ['前方高能', '注意注意', '请注意', '划重点', '重点来了'],
-        '' => ['懂了吧', '明白不', '收到没', '懂否', '明白了吗'],
-        '【' => ['重点来了', '注意了', '请看好', '划重点', '听好了'],
-        '】' => ['就这样', '完毕', '结束', '懂了吗', '明白了吧'],
-        '～' => ['哈哈哈', '嘿嘿嘿', '嘻嘻嘻', '呵呵呵', '嗯嗯嗯'],
-        '…' => ['欲言又止', '话没说完', '还想说', '继续说', '接着说']
-    ];
-
-    private array $specialPatterns = [
-        '开始' => ['让我康康', '我来看看', '搞什么飞机', '这是否', '啥玩意儿'],
-        '结束' => ['就这样吧', '完事了', '收工了', '这就是了', '懂了吧'],
-        '分隔' => ['不过话说回来', '但是转念一想', '说起来你可能不信', '我想起来了', '我明白了']
+    // 每个位置对应的梗文数组，每组至少64个，用于Base64编码
+    private array $memeGroups = [
+        // A-Z (0-25)
+        [
+            '绝了绝了', '笑死我了', '太牛了吧', '真的假的', '啊对对对', 
+            '确实确实', '懂的都懂', '就是就是', '麻了麻了', '裂开了啦',
+            '破防了呀', '寄了寄了', '太离谱了', '这么离谱', '太震惊了',
+            '震惊倒了', '我都惊了', '这是否', '不是吧', '太可以了',
+            '太强了', '我跪了', '我哭了', '太秀了', '太帅了', '太猛了'
+        ],
+        // a-z (26-51)
+        [
+            '不过呢', '但是呢', '所以说', '接着说', '然后呢', '后来呢',
+            '继续说', '说下去', '你猜啊', '你说呢', '想不到', '没想到',
+            '真的是', '属于是', '就是说', '我觉得', '确实是', '这就是',
+            '简直是', '就像是', '其实是', '应该是', '可能是', '大概是',
+            '或许是', '肯定是'
+        ],
+        // 0-9 (52-61)
+        [
+            '笑死', '破防', '裂开', '社死', '起飞', '爆炸', 
+            '震惊', '狂喜', '无敌', '上天'
+        ],
+        // +/ (62-63)
+        [
+            '冲鸭', '带飞'
+        ],
+        // 额外的梗文，用于随机替换
+        'extra' => [
+            '完蛋', '崩溃', '自闭', '自爆', '暴毙', '跪了', '吐了', '呕吐',
+            '哈人', '离谱', '绝了', '牛啊', '啊这', '好家伙', '芜湖', '起飞',
+            '太上头了', '我酸了', '我裂开了', '我暴毙了', '我自闭了', '我傻了',
+            '太草了', '太狠了', '太难崩了', '太难蚌了', '太难绷了', '太难顶了',
+            '我超', '我哭死', '我吐了', '我服了', '我没了', '我裂开',
+            '我直接好家伙', '我直接爆炸', '我直接裂开', '我直接震惊',
+            '这河里吗', '这不河里', '这很河里', '这太河里了',
+            '给我整不会了', '给我整笑了', '给我整哭了', '给我整懵了',
+            '蚌埠住了', '绷不住了', '顶不住了', '受不了了',
+            '典中典', '绝中绝', '离谱他妈给离谱开门', '离谱到家了',
+            '你细品', '你仔细品', '你品你细品', '你回旋品',
+            '这操作', '这波操作', '这手操作', '这套操作'
+        ]
     ];
 
     /**
-     * 将普通文本加密成梗
+     * 将普通文本加密成梗文
      */
     public function encode(string $text): string
     {
-        $chars = mb_str_split($text, 1, 'UTF-8');
-        $result = '';
+        if (empty($text)) {
+            return '';
+        }
+
+        // 确保输入是UTF-8编码
+        if (!mb_check_encoding($text, 'UTF-8')) {
+            $text = mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($text));
+        }
+
+        // 将文本转换为Base64
+        $base64 = base64_encode($text);
+        $result = [];
         
-        // 添加开始标记
-        $startIndex = crc32($text) % 5;
-        $result .= $this->specialPatterns['开始'][$startIndex] . "\n";
-        
-        // 加密每个字符
-        foreach ($chars as $index => $char) {
-            // 如果字符有对应的梗，随机选择一个
-            if (isset($this->memeMap[$char])) {
-                // 使用字符位置和内容生成确定性的随机数
-                $memeIndex = (crc32($char . $index . $text) % 5);
-                $result .= $this->memeMap[$char][$memeIndex];
-            } else {
-                // 如果没有对应的梗，直接使用原字符
-                $result .= $char;
+        // 将每个Base64字符转换为对应的梗文
+        for ($i = 0; $i < strlen($base64); $i++) {
+            $char = $base64[$i];
+            if ($char === '=') {
+                continue; // 跳过填充字符
             }
             
-            // 除了最后一个字符，每个字符后面都加分隔符和换行
-            if ($index < count($chars) - 1) {
-                $separatorIndex = (crc32($char . $index . 'sep') % 5);
-                $result .= "\n" . $this->specialPatterns['分隔'][$separatorIndex] . "\n";
+            $group = $this->getCharGroup($char);
+            if ($group !== false) {
+                // 使用基本组的梗文，确保一致性
+                $memes = $this->memeGroups[$group];
+                $index = $this->getCharIndex($char);
+                if ($index !== false && isset($memes[$index])) {
+                    $result[] = $memes[$index];
+                }
             }
         }
         
-        // 添加结束标记
-        $endIndex = crc32($text . 'end') % 5;
-        $result .= "\n" . $this->specialPatterns['结束'][$endIndex];
-        
-        return $result;
+        return implode('，', $result);
     }
 
     /**
-     * 将梗解密成普通文本
+     * 获取字符在其组内的索引
+     * @return int|false
+     */
+    private function getCharIndex(string $char)
+    {
+        if ($char >= 'A' && $char <= 'Z') {
+            return ord($char) - ord('A');
+        }
+        if ($char >= 'a' && $char <= 'z') {
+            return ord($char) - ord('a');
+        }
+        if ($char >= '0' && $char <= '9') {
+            return ord($char) - ord('0');
+        }
+        if ($char === '+') {
+            return 0;
+        }
+        if ($char === '/') {
+            return 1;
+        }
+        return false;
+    }
+
+    /**
+     * 查找已映射到指定字符的额外梗文
+     * @return array
+     */
+    private function findMappedExtraMemes(string $char): array
+    {
+        $mappedMemes = [];
+        $group = $this->getCharGroup($char);
+        $index = $this->getCharIndex($char);
+        
+        if ($group === false || $index === false) {
+            return [];
+        }
+
+        // 在额外组中查找与基本组相同位置的梗文
+        foreach ($this->memeGroups['extra'] as $meme) {
+            foreach ($this->memeGroups as $groupIndex => $groupMemes) {
+                if ($groupIndex === 'extra' || !is_array($groupMemes)) {
+                    continue;
+                }
+                
+                $memeIndex = array_search($meme, $groupMemes, true);
+                if ($memeIndex !== false) {
+                    if ($groupIndex === $group && $memeIndex === $index) {
+                        $mappedMemes[] = $meme;
+                    }
+                }
+            }
+        }
+        
+        return $mappedMemes;
+    }
+
+    /**
+     * 将梗文解密成普通文本
      */
     public function decode(string $memeText): string
     {
-        // 预处理：标准化换行符和空格，并移除多余的空白字符
-        $memeText = str_replace(["\r\n", "\r"], "\n", $memeText);
-        $memeText = preg_replace('/\s+/', ' ', $memeText); // 将所有连续空白字符替换为单个空格
-        $memeText = trim($memeText);
-        
-        // 如果输入为空，直接返回
         if (empty($memeText)) {
             return '';
         }
-        
-        // 分割文本（同时支持空格和换行符）
-        $parts = preg_split('/[\s\n]+/', $memeText);
-        
-        // 检查是否有足够的部分
-        if (count($parts) < 3) { // 至少需要开始标记、内容和结束标记
-            return $memeText;
-        }
-        
-        // 获取第一个和最后一个部分
-        $firstPart = $parts[0];
-        $lastPart = $parts[count($parts) - 1];
-        
-        // 验证开始标记
-        $isValidStart = false;
-        foreach ($this->specialPatterns['开始'] as $start) {
-            if ($firstPart === $start) {
-                $isValidStart = true;
-                break;
+
+        try {
+            // 清理和分割输入文本
+            $memeText = str_replace(['。', '，', ' ', '、', '！', '？', "\n", "\r"], '，', $memeText);
+            $memeText = trim($memeText, '，');
+            $parts = explode('，', $memeText);
+            $parts = array_filter($parts, 'strlen');  // 移除空字符串
+            
+            if (empty($parts)) {
+                return '解密失败：无效的输入格式';
             }
-        }
-        
-        // 验证结束标记
-        $isValidEnd = false;
-        foreach ($this->specialPatterns['结束'] as $end) {
-            if ($lastPart === $end) {
-                $isValidEnd = true;
-                break;
-            }
-        }
-        
-        // 如果不是有效的加密文本，返回原文
-        if (!$isValidStart || !$isValidEnd) {
-            return $memeText;
-        }
-        
-        // 移除首尾标记
-        array_shift($parts);
-        array_pop($parts);
-        
-        $result = '';
-        $currentPhrase = '';
-        
-        // 处理每个部分
-        foreach ($parts as $part) {
-            // 检查是否是分隔符
-            $isDelimiter = false;
-            foreach ($this->specialPatterns['分隔'] as $delimiter) {
-                if ($part === $delimiter) {
-                    $isDelimiter = true;
-                    break;
+            
+            // 将每个梗文转换回Base64字符
+            $base64Chars = [];
+            $failedMemes = [];
+            
+            foreach ($parts as $position => $meme) {
+                $meme = trim($meme);
+                if (empty($meme)) continue;
+                
+                // 优先在基本组中查找
+                $char = $this->findMemeCharInBasicGroups($meme);
+                
+                if ($char !== false) {
+                    $base64Chars[$position] = $char;
+                } else {
+                    $failedMemes[] = $meme;
                 }
             }
             
-            if ($isDelimiter) {
-                // 如果是分隔符，处理之前累积的短语
-                if (!empty($currentPhrase)) {
-                    $found = false;
-                    foreach ($this->memeMap as $char => $memes) {
-                        if (in_array($currentPhrase, $memes)) {
-                            $result .= $char;
-                            $found = true;
-                            break;
-                        }
-                    }
-                    if (!$found) {
-                        $result .= $currentPhrase;
-                    }
-                    $currentPhrase = '';
+            // 按正确顺序组合Base64字符
+            ksort($base64Chars);
+            $base64 = implode('', $base64Chars);
+            
+            if (empty($base64)) {
+                if (!empty($failedMemes)) {
+                    return '解密失败：无法识别的梗文：' . implode('，', $failedMemes);
                 }
+                return '解密失败：无法生成有效的Base64字符串';
+            }
+            
+            // 补充缺失的填充字符
+            $padding = strlen($base64) % 4;
+            if ($padding > 0) {
+                $base64 .= str_repeat('=', 4 - $padding);
+            }
+            
+            // 尝试解码
+            $decoded = base64_decode($base64);
+            if ($decoded === false) {
+                return '解密失败：无效的Base64编码：' . $base64;
+            }
+            
+            // 确保结果是有效的UTF-8
+            if (!mb_check_encoding($decoded, 'UTF-8')) {
+                // 尝试转换编码
+                $detected = mb_detect_encoding($decoded, ['UTF-8', 'GBK', 'GB2312', 'BIG5']);
+                if ($detected) {
+                    $decoded = mb_convert_encoding($decoded, 'UTF-8', $detected);
+                }
+                
+                if (!mb_check_encoding($decoded, 'UTF-8')) {
+                    return '解密失败：解码结果不是有效的UTF-8文本';
+                }
+            }
+            
+            return $decoded;
+        } catch (\Exception $e) {
+            return '解密失败：' . $e->getMessage();
+        }
+    }
+
+    /**
+     * 在基本组中查找梗文对应的字符
+     * @param string $meme 要查找的梗文
+     * @return string|false 找到返回Base64字符，否则返回false
+     */
+    private function findMemeCharInBasicGroups(string $meme)
+    {
+        $meme = trim($meme);
+        if (empty($meme)) {
+            return false;
+        }
+
+        // 在基本组中查找
+        foreach ($this->memeGroups as $groupIndex => $group) {
+            if ($groupIndex === 'extra' || !is_array($group)) {
                 continue;
             }
-            
-            // 如果不是分隔符，添加到当前短语
-            if (!empty($currentPhrase)) {
-                $currentPhrase .= ' ';
-            }
-            $currentPhrase .= $part;
-        }
-        
-        // 处理最后一个短语
-        if (!empty($currentPhrase)) {
-            $found = false;
-            foreach ($this->memeMap as $char => $memes) {
-                if (in_array($currentPhrase, $memes)) {
-                    $result .= $char;
-                    $found = true;
-                    break;
+
+            $index = array_search($meme, $group, true);
+            if ($index !== false) {
+                if ($groupIndex === 0 && $index < 26) {
+                    return chr(ord('A') + $index);
+                } elseif ($groupIndex === 1 && $index < 26) {
+                    return chr(ord('a') + $index);
+                } elseif ($groupIndex === 2 && $index < 10) {
+                    return chr(ord('0') + $index);
+                } elseif ($groupIndex === 3) {
+                    return $index === 0 ? '+' : '/';
                 }
             }
-            if (!$found) {
-                $result .= $currentPhrase;
+        }
+
+        return false;
+    }
+
+    /**
+     * 在额外组中查找梗文对应的字符
+     * @param string $meme 要查找的梗文
+     * @return string|false 找到返回Base64字符，否则返回false
+     */
+    private function findMemeCharInExtraGroup(string $meme)
+    {
+        // 在额外组中查找
+        $index = array_search($meme, $this->memeGroups['extra'], true);
+        if ($index !== false) {
+            // 找到后，检查这个梗文是否在基本组中有对应
+            foreach ($this->memeGroups as $groupIndex => $group) {
+                if ($groupIndex === 'extra' || !is_array($group)) {
+                    continue;
+                }
+
+                if (in_array($meme, $group, true)) {
+                    $originalIndex = array_search($meme, $group, true);
+                    if ($originalIndex !== false) {
+                        if ($groupIndex === 0 && $originalIndex < 26) {
+                            return chr(ord('A') + $originalIndex);
+                        } elseif ($groupIndex === 1 && $originalIndex < 26) {
+                            return chr(ord('a') + $originalIndex);
+                        } elseif ($groupIndex === 2 && $originalIndex < 10) {
+                            return chr(ord('0') + $originalIndex);
+                        } elseif ($groupIndex === 3) {
+                            return $originalIndex === 0 ? '+' : '/';
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 获取字符所属的组
+     * @param string $char 要查找的字符
+     * @return int|false 找到返回组索引，否则返回false
+     */
+    private function getCharGroup(string $char)
+    {
+        if ($char >= 'A' && $char <= 'Z') {
+            return 0;
+        }
+        if ($char >= 'a' && $char <= 'z') {
+            return 1;
+        }
+        if ($char >= '0' && $char <= '9') {
+            return 2;
+        }
+        if ($char === '+' || $char === '/') {
+            return 3;
+        }
+        return false;
+    }
+
+    /**
+     * 查找梗文对应的Base64字符
+     * @param string $meme 要查找的梗文
+     * @return string|false 找到返回Base64字符，否则返回false
+     */
+    private function findMemeChar(string $meme)
+    {
+        $meme = trim($meme);
+        if (empty($meme)) {
+            return false;
+        }
+
+        // 在A-Z组中查找
+        $index = array_search($meme, $this->memeGroups[0], true);
+        if ($index !== false && $index < 26) {
+            return chr(ord('A') + $index);
+        }
+        
+        // 在a-z组中查找
+        $index = array_search($meme, $this->memeGroups[1], true);
+        if ($index !== false && $index < 26) {
+            return chr(ord('a') + $index);
+        }
+        
+        // 在0-9组中查找
+        $index = array_search($meme, $this->memeGroups[2], true);
+        if ($index !== false && $index < 10) {
+            return chr(ord('0') + $index);
+        }
+        
+        // 在+/组中查找
+        $index = array_search($meme, $this->memeGroups[3], true);
+        if ($index !== false) {
+            return $index === 0 ? '+' : '/';
+        }
+        
+        // 在额外组中查找对应的原始梗文
+        $index = array_search($meme, $this->memeGroups['extra'], true);
+        if ($index !== false) {
+            // 找到原始梗文后，在基本组中查找对应位置
+            foreach ($this->memeGroups as $groupIndex => $group) {
+                if ($groupIndex === 'extra') continue;
+                if (!is_array($group)) continue;
+                
+                $originalIndex = array_search($meme, $group, true);
+                if ($originalIndex !== false) {
+                    if ($groupIndex === 0 && $originalIndex < 26) {
+                        return chr(ord('A') + $originalIndex);
+                    } elseif ($groupIndex === 1 && $originalIndex < 26) {
+                        return chr(ord('a') + $originalIndex);
+                    } elseif ($groupIndex === 2 && $originalIndex < 10) {
+                        return chr(ord('0') + $originalIndex);
+                    } elseif ($groupIndex === 3) {
+                        return $originalIndex === 0 ? '+' : '/';
+                    }
+                }
             }
         }
         
-        return $result;
+        return false;
     }
 } 
