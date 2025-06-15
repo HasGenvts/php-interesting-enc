@@ -108,9 +108,6 @@ echo $decrypted; // 输出：这也太离谱了吧？
 
 [![Star History Chart](https://api.star-history.com/svg?repos=HasGenvts/php-interesting-enc&type=Date)](https://star-history.com/#HasGenvts/php-interesting-enc&Date)
 
-## 📊 项目状态
-
-![Alt](https://repobeats.axiom.co/api/embed/your-repobeats-hash.svg "Repobeats analytics image")
 
 ## 🙏 鸣谢
 
