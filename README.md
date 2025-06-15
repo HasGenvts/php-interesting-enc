@@ -1,14 +1,14 @@
 # 🎭 PHP-Interesting-Enc
 
-[![GitHub stars](https://img.shields.io/github/stars/your-username/php-interesting-enc.svg?style=social&label=Stars)](https://github.com/your-username/php-interesting-enc)
+[![GitHub stars](https://img.shields.io/github/stars/HasGenvts/php-interesting-enc.svg?style=social&label=Stars)](https://github.com/HasGenvts/php-interesting-enc)
 [![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.4-blue.svg)](https://www.php.net)
-[![License](https://img.shields.io/github/license/your-username/php-interesting-enc.svg)](LICENSE)
+[![License](https://img.shields.io/github/license/HasGenvts/php-interesting-enc.svg)](LICENSE)
 
 > 一个有趣的PHP加密工具，可以将普通文本转换成中文互联网流行梗，支持双向转换。
 
 ## 📈 项目活跃度
 
-![Stargazers over time](https://starchart.cc/your-username/php-interesting-enc.svg)
+![Stargazers over time](https://starchart.cc/HasGenvts/php-interesting-enc.svg)
 
 ## ✨ 特性
 
@@ -34,7 +34,7 @@
 
 1. 克隆仓库：
 ```bash
-git clone https://github.com/your-username/php-interesting-enc.git
+git clone https://github.com/HasGenvts/php-interesting-enc.git
 ```
 
 2. 进入项目目录：
@@ -106,7 +106,7 @@ echo $decrypted; // 输出：这也太离谱了吧？
 
 ## 🌟 Star 历史
 
-[![Star History Chart](https://api.star-history.com/svg?repos=your-username/php-interesting-enc&type=Date)](https://star-history.com/#your-username/php-interesting-enc&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=HasGenvts/php-interesting-enc&type=Date)](https://star-history.com/#HasGenvts/php-interesting-enc&Date)
 
 ## 📊 项目状态
 
